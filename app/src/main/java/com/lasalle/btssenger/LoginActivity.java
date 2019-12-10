@@ -1,5 +1,7 @@
 package com.lasalle.btssenger;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,10 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private Context context = this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +54,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Auth auth) {
                         System.out.println(auth);
+                        if (auth.getStatus().equals("success")) {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            startActivity(intent);
+
+                        }
 
                     }
 
@@ -58,5 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 
 }
