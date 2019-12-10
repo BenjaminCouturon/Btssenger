@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Btssenger</string>
     <string name="email">Email</string>
+    <string name="Pwd">Password</string>
+    <string name="Login">Login</string>
+    
 </resources>
