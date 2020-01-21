@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(Auth auth) {
                         System.out.println(auth);
                         if (auth.getStatus().equals("success")) {
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, MessageActivity.class);
                             startActivity(intent);
 
                         }
