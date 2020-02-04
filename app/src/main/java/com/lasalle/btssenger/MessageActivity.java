@@ -7,16 +7,21 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
+
 
 public class MessageActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private WS_Send socket=new WS_Send();
+    private WS_Send socket;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.messages_activity);
+
+        socket = new WS_Send();
+        socket.execute("");
     }
 
     @Override
@@ -28,7 +33,12 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        String message = ((EditText)findViewById(R.id.message_text)).getText().toString();
-        socket.send(message);
+        try {
+            String message = ((EditText) findViewById(R.id.message_text)).getText().toString();
+            socket.send(message);
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
     }
 }

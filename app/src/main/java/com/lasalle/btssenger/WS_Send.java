@@ -1,37 +1,28 @@
 package com.lasalle.btssenger;
 
-import com.google.gson.Gson;
+import android.os.AsyncTask;
 
-import java.util.Collections;
-import java.util.UUID;
+import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
+public class WS_Send extends AsyncTask<String, Void, Boolean> {
+    private RocketChatClient client;
 
-public class WS_Send extends WebSocketListener {
-    private OkHttpClient clientws;
-    private WebSocket webSocket;
+    protected Boolean doInBackground(String... urls) {
+        try {
+            client = new RocketChatClient("ws://92.222.66.192:3000/websocket", "test", "azerty");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+        }
+        return true;
+    }
 
-    public WS_Send() {
-        clientws = new OkHttpClient.Builder().build();
-        Request request = new Request.Builder().url("ws://92.222.66.192:300/websocket").build();
-        webSocket = clientws.newWebSocket(request, this);
+    protected void onPostExecute(Void v) {
+
     }
 
     public void send(String message) {
-    Message msg = new Message();
-    msg.setMsg("method");
-    msg.setMethod("sendMessage");
-    msg.setId(UUID.randomUUID().toString());
-
-    Param param = new Param();
-    param.set_id(UUID.randomUUID().toString());
-    param.setRid("XWTEqyghh4jJZtp5T");
-    param.setMsg(message);
-    msg.setParams(Collections.singletonList(param));
-        webSocket.send(new Gson().toJson(msg));
+        client.sendMessage(message, "GENERAL");
     }
 }
-
