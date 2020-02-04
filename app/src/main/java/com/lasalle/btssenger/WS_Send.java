@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
 
 public class WS_Send  {
+    private static WS_Send instance;
     private RocketChatClient client;
     private LoginListener loginListener;
-    public WS_Send(LoginListener listener){
+
+    private WS_Send(LoginListener listener){
         this.loginListener = listener;
     }
 
@@ -21,7 +23,12 @@ public class WS_Send  {
         }
         return true;
     }
-
+    public static WS_Send getInstance(LoginListener listener){
+        if (instance == null){
+            instance = new WS_Send(listener);
+        }
+        return instance;
+    }
     protected void onPostExecute(Void v) {
     }
 

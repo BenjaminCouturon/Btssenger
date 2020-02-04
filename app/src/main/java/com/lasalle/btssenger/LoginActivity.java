@@ -23,9 +23,8 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.login_activity);
-        chat = new WS_Send(this);
+        chat = WS_Send.getInstance(this);
     }
 
     @Override
