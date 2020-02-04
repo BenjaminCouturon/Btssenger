@@ -3,6 +3,9 @@ package com.lasalle.btssenger;
 import android.os.AsyncTask;
 
 import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
+import com.github.daniel_sc.rocketchat.modern_client.response.ChatMessage;
+
+import io.reactivex.Observable;
 
 public class WS_Send  {
     private static WS_Send instance;
@@ -39,6 +42,12 @@ public class WS_Send  {
     public void send(String message) {
         client.sendMessage(message, "GENERAL");
     }
+
+    public void receive(MessageListener listener){
+        Observable<ChatMessage> messages = client.streamRoomMessages("GENERAL");
+        messages.forEach(message -> listener.newMessage(message));
+    }
+
     class InternalConnect extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {

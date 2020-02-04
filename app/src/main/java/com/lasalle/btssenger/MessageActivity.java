@@ -8,11 +8,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
+import com.github.daniel_sc.rocketchat.modern_client.response.ChatMessage;
 
 
-public class MessageActivity extends AppCompatActivity implements View.OnClickListener {
+public class MessageActivity extends AppCompatActivity implements View.OnClickListener, MessageListener {
 
     private WS_Send socket;
+
+    @Override
+    public void newMessage(ChatMessage message) {
+        System.out.println(message.msg);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,6 +27,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.messages_activity);
 
        socket = WS_Send.getInstance(null);
+       socket.receive(this);
     }
 
     @Override
