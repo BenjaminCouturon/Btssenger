@@ -15,15 +15,17 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     private Context context = this;
+    private WS_Send chat;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login_activity);
+        chat = new WS_Send(this);
     }
 
     @Override
@@ -40,8 +42,19 @@ public class LoginActivity extends AppCompatActivity {
             });
     }
 
+    @Override
+    public void loginSuccess() {
+            Intent intent = new Intent(context, MessageActivity.class);
+            startActivity(intent);
+    }
+    @Override
+    public void loginError() {
+
+    }
+
     private void login(String username, String password) {
-        RestClient client = new RestClient();
+        chat.login(username, password);
+        /*RestClient client = new RestClient();
         client.getAuthenticationService().login(new UserPassword(username, password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -66,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                     e.printStackTrace();
                     }
-                });
+                });*/
     }
 
 

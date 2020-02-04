@@ -20,8 +20,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
 
         setContentView(R.layout.messages_activity);
 
-        socket = new WS_Send();
-        socket.execute("");
+        //socket = new WS_Send();
     }
 
     @Override

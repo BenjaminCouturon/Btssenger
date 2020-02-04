@@ -4,8 +4,12 @@ import android.os.AsyncTask;
 
 import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
 
-public class WS_Send extends AsyncTask<String, Void, Boolean> {
+public class WS_Send  {
     private RocketChatClient client;
+    private LoginListener loginListener;
+    public WS_Send(LoginListener listener){
+        this.loginListener = listener;
+    }
 
     protected Boolean doInBackground(String... urls) {
         try {
@@ -19,10 +23,27 @@ public class WS_Send extends AsyncTask<String, Void, Boolean> {
     }
 
     protected void onPostExecute(Void v) {
+    }
 
+    public void login(String login, String password){
+        new InternalConnect().execute(login, password);
     }
 
     public void send(String message) {
         client.sendMessage(message, "GENERAL");
+    }
+    class InternalConnect extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                client = new RocketChatClient("ws://92.222.66.192:3000/websocket", strings[0], strings[1]);
+            } catch (Exception e) {
+                loginListener.loginError();
+                e.printStackTrace();
+                return false;
+            }
+            loginListener.loginSuccess();
+            return true;
+        }
     }
 }
